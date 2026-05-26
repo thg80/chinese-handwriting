@@ -1,0 +1,1 @@
+window.__DICTIONARY__ = [{"char":"一","pinyin":"yī","frequency":0,"strokes":1,"words":[{"word":"一般","text":""},{"word":"一半","text":""},{"word":"一起","text":""}]}];
