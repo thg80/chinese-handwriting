@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>提笔忘字 - 中文手写练习</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <header>
+    <h1>提笔忘字</h1>
+    <p class="subtitle">温故知新，常写常记</p>
+  </header>
+
+  <nav class="tab-bar" aria-label="模式切换">
+    <button class="tab-btn active" id="tabPractice" type="button">练习</button>
+    <button class="tab-btn" id="tabReview" type="button">复习</button>
+  </nav>
+
+  <!-- 练习面板 -->
+  <main id="practiceSection">
+    <fieldset class="difficulty-bar" aria-label="难度选择">
+      <legend class="difficulty-label">练习范围</legend>
+      <div class="difficulty-options" id="difficultyOptions">
+        <label class="diff-opt"><input type="radio" name="difficulty" value="all"> 全部</label>
+        <label class="diff-opt active"><input type="radio" name="difficulty" value="0,1,2" checked> 常用</label>
+        <label class="diff-opt"><input type="radio" name="difficulty" value="3,4"> 进阶</label>
+        <label class="diff-opt"><input type="radio" name="difficulty" value="5"> 高级</label>
+      </div>
+      <span class="diff-count" id="diffCount"></span>
+    </fieldset>
+
+    <section class="prompt-card" aria-label="提示区">
+      <span class="mode-badge" id="modeBadge" style="display:none;"></span>
+      <div class="pinyin" id="pinyin">…</div>
+      <div class="words" id="words">…</div>
+    </section>
+
+    <section class="canvas-wrapper" aria-label="手写区">
+      <canvas id="writeCanvas" role="img" aria-label="手写练习区域，用鼠标或触摸在此书写汉字"></canvas>
+      <div class="answer-overlay" id="answerOverlay" style="display:none;">
+        <div class="answer" id="answer"></div>
+      </div>
+      <button class="clear-btn" id="clearBtn" type="button">清除</button>
+    </section>
+
+    <section class="reveal-section" id="revealSection">
+      <button class="reveal-btn" id="revealBtn" type="button">查看答案</button>
+    </section>
+
+    <section class="actions" id="actions" aria-label="评价">
+      <button class="btn-mastered" id="masteredBtn" type="button">会写</button>
+      <button class="btn-difficult" id="difficultBtn" type="button">不会写</button>
+      <button class="btn-exit-review" id="exitReviewBtn" type="button" style="display:none;">退出复习</button>
+    </section>
+
+    <div class="stats" id="stats"></div>
+  </main>
+
+  <!-- 复习面板（初始隐藏） -->
+  <main id="reviewSection" style="display:none;">
+    <div class="review-filters" id="reviewFilters">
+      <div class="review-date-row">
+        <div class="review-date-chips" id="reviewDateChips"></div>
+        <button class="review-tool-btn" id="reviewSelectToggle" type="button">选择</button>
+      </div>
+      <div class="review-status-row">
+        <button class="review-status-btn active" data-status="all" type="button">全部</button>
+        <button class="review-status-btn" data-status="due" type="button">待复习</button>
+        <button class="review-status-btn" data-status="difficult" type="button">需复习</button>
+        <button class="review-status-btn" data-status="mastered" type="button">已掌握</button>
+        <select class="review-sort" id="reviewSort">
+          <option value="recent">最近</option>
+          <option value="difficultFirst">错字优先</option>
+          <option value="oldest">最早</option>
+          <option value="familiarity">熟悉度</option>
+        </select>
+        <span class="review-sep"></span>
+        <button class="data-io-btn" id="statsToggleBtn" type="button">统计</button>
+        <button class="data-io-btn" id="exportBtn" type="button">导出</button>
+        <button class="data-io-btn" id="importBtn" type="button">导入</button>
+        <input type="file" id="importFile" accept=".json" style="display:none;">
+      </div>
+    </div>
+    <div class="review-batch-bar" id="reviewBatchBar" style="display:none;">
+      <button class="review-tool-btn" id="reviewSelectAll" type="button">全选</button>
+      <button class="review-tool-btn" id="reviewSelect20" type="button">选20字</button>
+      <button class="review-tool-btn" id="reviewSelect50" type="button">选50字</button>
+      <button class="review-tool-btn" id="reviewDeselectAll" type="button">取消</button>
+      <span class="review-select-count" id="reviewSelectCount">已选 0 字</span>
+      <button class="review-tool-btn batch-action" id="reviewBatchPractice" type="button">批量复习</button>
+      <button class="review-tool-btn batch-action" id="reviewBatchReset" type="button">放回待学</button>
+    </div>
+    <div class="review-grid" id="reviewGrid"></div>
+    <div class="review-empty" id="reviewEmpty" style="display:none;">暂无学习记录，去练习几个字吧。</div>
+
+    <div class="stats-panel" id="statsPanel">
+      <div class="stats-panel-inner">
+        <div class="stats-panel-header">
+          <h3>学习统计</h3>
+          <button class="stats-close-btn" id="statsCloseBtn" type="button">&times;</button>
+        </div>
+        <div class="stats-panel-body" id="statsPanelBody">
+          <!-- 动态生成 -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="./data/dictionary-common.js"></script>
+  <script src="./js/canvas.js"></script>
+  <script src="./js/app.js"></script>
+  <script src="./js/review.js"></script>
+</body>
+</html>

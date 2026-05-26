@@ -1,0 +1,10 @@
+# 上游源数据（仅构建时使用，不纳入版本管理）
+chinese-dictionary-main/
+
+# 脚本临时数据文件
+scripts/char_base.json
+scripts/char_detail.json
+scripts/word.json
+
+# 系统文件
+.claude/
