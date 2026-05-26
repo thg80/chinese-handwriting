@@ -431,7 +431,7 @@
 
     if (!currentChar) return;
 
-    pinyinEl.textContent = "重赴火锅聚餐 重赴火锅聚餐";
+    pinyinEl.textContent = currentChar.pinyin;
     wordsEl.innerHTML = currentChar.words
       .map(function (w) {
         var wordText = typeof w === "string" ? w : (w.word || "");
@@ -439,9 +439,9 @@
         var display = wordText.replace(currentChar.char, "＿");
         if (explain) {
           var maskedExplain = explain.replace(new RegExp(currentChar.char, "g"), "＿");
-          return '<span class="word-line">' + display + '<span class="word-explain">（' + maskedExplain + "）</span></span>";
+          return '<span class="word-line">' + display + '<span class="word-explain">（' + maskedExplain + '）</span></span>';
         }
-        return '<span class="word-line">' + display + "</span>";
+        return '<span class="word-line">' + display + '</span>';
       })
       .join("");
 
